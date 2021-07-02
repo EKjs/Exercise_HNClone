@@ -3,7 +3,20 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* #ff6600; */
+.header{
+    background-color: #ff6600;
+    width: 80%;
+    margin: auto;
+}
+.header a{
+    font-size:1.2rem;
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    margin:0.2rem;
+    font-family: Verdana, Geneva, sans-serif;
+}
+/*  */
 .container{
     width: 80%;
     margin: auto;

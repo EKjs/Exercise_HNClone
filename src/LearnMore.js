@@ -1,11 +1,5 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState,useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
 
 export default function LearnMore({match}) {
     const hitUrl=`http://hn.algolia.com/api/v1/items/${match.params.hitId}`;
@@ -14,16 +8,24 @@ export default function LearnMore({match}) {
     const [errorFound,setErrorFound]=useState({err:false,errText:"No error"});
 
     useEffect(()=>{
+        console.log('Fetching url: ',hitUrl);
         setLoadingData(true);
         fetch(hitUrl)
-        .then(response=>response.ok && response.json())
+        // .then(response=>response.ok && response.json())
+        .then(response=>{
+            console.log('Got response: ',response.statusText);
+            if(response.ok) return response.json()})
         .then(data=>{
             setNewsData(data);
             console.log('Got data from server:',data);
             setLoadingData(false);
         })
-        .catch(err=>console.log(err))
-    },[])
+        .catch(error=>{
+            setLoadingData(false);
+            console.log(error);
+            setErrorFound({err:true,errText:error.message});
+            });
+    },[hitUrl])
 
     if (loadingData) return <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}><CircularProgress /></div>
     if (errorFound.err){
@@ -95,7 +97,8 @@ function Comment(props) {
             <div className="commentDiv" style={{marginLeft:props.margin}}>
                 <div className="under">
                 <a href="/">{props.author}</a>
-                <a href="/">{props.created_at}</a>
+                <a href="/">{(new Date(props.created_at)).toLocaleString()}</a>
+                
                 </div>
                 
                 {/* DANGER :) */}

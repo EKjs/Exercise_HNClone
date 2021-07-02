@@ -52,10 +52,10 @@ export default function SearchPage() {
             setErrorFound({err:true,errText:error.message});
             });
     }
-
+   
     useEffect(()=>{
-        doSearch()
-    },[]);
+      if (dataFromSrv.hits<1)doSearch();
+    },[dataFromSrv]);
 
     if (loadingData) return <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}><CircularProgress /></div>
     if (errorFound.err){
@@ -74,10 +74,7 @@ export default function SearchPage() {
               e.preventDefault();
               doSearch();
             }}>
-            <input type="text" name="searchInput" onChange={(e)=>{
-                setSearchWord(e.target.value);
-                console.log(searchWord);
-            }} />
+            <input type="text" name="searchInput" onChange={(e)=>setSearchWord(e.target.value)} />
             <input type="submit" value="Search"/>
             </form>
             <div>
@@ -85,7 +82,7 @@ export default function SearchPage() {
             </div>
         </div>
 
-            {dataFromSrv.nbHits==0 && dataFromSrv.nbPages==0 ?
+            {dataFromSrv.nbHits===0 && dataFromSrv.nbPages===0 ?
           "No news match your search..." :
           dataFromSrv.hits.map(item=>(
             <NewsLine
@@ -105,23 +102,6 @@ export default function SearchPage() {
         page={dataFromSrv.page+1 || 1} // API counts from 0
         onChange={changePage}
         />
-
-
       </div>
     );
   }
-
-  //dataFromSrv
-//nbHits
-//nbPages
-//page
-//hitsPerPage
-
-
-/*   
-  const date1 = new Date("2020-12-10"),
-        date2 = new Date("2021-10-31"),
-        time_difference = difference(date1,date2)
-  
-  console.log(time_difference)
-   */
