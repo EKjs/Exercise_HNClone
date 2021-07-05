@@ -7,9 +7,9 @@ export default function SearchPage() {
     const firstWord = 'React';
     const basicSearchUrl='http://hn.algolia.com/api/v1/search?query=';
 
-    const [dataFromSrv,setDataFromSrv]=useState({query:firstWord,hits:[]});
+    const [dataFromSrv,setDataFromSrv]=useState({query:firstWord});
     const [searchWord,setSearchWord]=useState(firstWord);
-    const [loadingData,setLoadingData]=useState(false);
+    const [loadingData,setLoadingData]=useState(true);
     const [errorFound,setErrorFound]=useState({err:false,errText:"No error"});
     const [timerId,setTimerId]=useState();
     const [curUrl,setCurUrl]=useState(basicSearchUrl+searchWord);
@@ -18,12 +18,12 @@ export default function SearchPage() {
 
     const doSearch=()=>{
         setCurUrl(basicSearchUrl+searchWord);
-        getDataFromServer(basicSearchUrl+searchWord)
+        getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord))
     }
 
     const changePage=(e,page)=>{
       setCurUrl(basicSearchUrl+searchWord+'&page='+ (page-1));
-      getDataFromServer(basicSearchUrl+searchWord+'&page='+ (page-1));
+      getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord)+'&page='+ (page-1));
     }
 
     const timer5 = () =>{
@@ -54,7 +54,7 @@ export default function SearchPage() {
     }
    
     useEffect(()=>{
-      if (dataFromSrv.hits<1)doSearch();
+      if (!dataFromSrv.hits)doSearch();
     },[dataFromSrv]);
 
     if (loadingData) return <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}><CircularProgress /></div>
@@ -96,12 +96,15 @@ export default function SearchPage() {
             objectID={item.objectID}
             />
           ))
+          
         }
-        <Pagination 
-        count={dataFromSrv.nbPages || 1}
-        page={dataFromSrv.page+1 || 1} // API counts from 0
-        onChange={changePage}
-        />
+        {dataFromSrv.nbPages > 0 &&
+          <Pagination 
+          count={dataFromSrv.nbPages}
+          page={dataFromSrv.page+1} // API counts from 0
+          onChange={changePage}
+          />
+        }
       </div>
     );
   }

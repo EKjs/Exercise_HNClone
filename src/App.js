@@ -18,13 +18,7 @@ export default function App() {
             <SearchPage />
           </Route>
           <Route exact path="/learnmore/:hitId" component={LearnMore}/>
-       
         </div>
       </Router>
     );
-
-
-  
 }
-
-
