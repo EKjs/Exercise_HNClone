@@ -14,9 +14,7 @@ export default function App() {
       <Router>
         <div className="App">
           <Header/>
-          <Route exact path="/">
-            <SearchPage />
-          </Route>
+          <Route exact path="/" component={SearchPage} />
           <Route exact path="/learnmore/:hitId" component={LearnMore}/>
         </div>
       </Router>
