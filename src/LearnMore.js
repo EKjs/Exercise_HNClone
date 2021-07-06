@@ -90,7 +90,7 @@ export default function LearnMore({match}) {
     )
 }
 
-
+// Recursive component
 function Comment(props) {
     const hasChildren=props.children && props.children.length;
     return (

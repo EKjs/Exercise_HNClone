@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export default function NewsLine(props) {
     const urlToArticle="/learnmore/"+props.objectID;
 
@@ -15,9 +15,9 @@ export default function NewsLine(props) {
     return (
         <div className="news-container">
             <div className="title">
-                <a href={urlToArticle} className="title-text">
+                <Link to={urlToArticle} className="title-text">
                     {props.title}  
-                </a>
+                </Link>
                 <a href={props.newsUrl} className="title-url">
                     ({props.newsUrl})
                 </a>

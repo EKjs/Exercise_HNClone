@@ -18,12 +18,12 @@ export default function SearchPage() {
 
     const doSearch=()=>{
         setCurUrl(basicSearchUrl+searchWord);
-        getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord))
+        getDataFromServer(basicSearchUrl+searchWord)
     }
 
     const changePage=(e,page)=>{
       setCurUrl(basicSearchUrl+searchWord+'&page='+ (page-1));
-      getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord)+'&page='+ (page-1));
+      getDataFromServer(basicSearchUrl+searchWord+'&page='+ (page-1));
     }
 
     const timer5 = () =>{
@@ -58,6 +58,7 @@ export default function SearchPage() {
     },[dataFromSrv]);
 
     if (loadingData) return <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}><CircularProgress /></div>
+
     if (errorFound.err){
       return (
         <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}>
@@ -85,18 +86,17 @@ export default function SearchPage() {
             {dataFromSrv.nbHits===0 && dataFromSrv.nbPages===0 ?
           "No news match your search..." :
           dataFromSrv.hits.map(item=>(
-            <NewsLine
-            key={item.objectID}
-            title={item.title}
-            newsUrl={item.url}
-            author={item.author}
-            points={item.points}
-            created_at={item.created_at}
-            num_comments={item.num_comments}
-            objectID={item.objectID}
-            />
+              <NewsLine
+              key={item.objectID}
+              title={item.title}
+              newsUrl={item.url}
+              author={item.author}
+              points={item.points}
+              created_at={item.created_at}
+              num_comments={item.num_comments}
+              objectID={item.objectID}
+              />
           ))
-          
         }
         {dataFromSrv.nbPages > 0 &&
           <Pagination 

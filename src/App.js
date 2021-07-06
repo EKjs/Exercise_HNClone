@@ -4,7 +4,7 @@ import LearnMore from './LearnMore';
 import Header from './Header'
 import {
   BrowserRouter as Router,
-  Route,
+  Route, Switch, Redirect
 } from "react-router-dom";
 
 
@@ -14,8 +14,11 @@ export default function App() {
       <Router>
         <div className="App">
           <Header/>
-          <Route exact path="/" component={SearchPage} />
-          <Route exact path="/learnmore/:hitId" component={LearnMore}/>
+          <Redirect from='/' to='/search' />
+          <Switch>
+            <Route path="/learnmore/:hitId" component={LearnMore}/>
+            <Route path="/search" component={SearchPage} />
+          </Switch>
         </div>
       </Router>
     );
