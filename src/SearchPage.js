@@ -18,12 +18,12 @@ export default function SearchPage() {
 
     const doSearch=()=>{
         setCurUrl(basicSearchUrl+searchWord);
-        getDataFromServer(basicSearchUrl+searchWord)
+        getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord))
     }
 
     const changePage=(e,page)=>{
       setCurUrl(basicSearchUrl+searchWord+'&page='+ (page-1));
-      getDataFromServer(basicSearchUrl+searchWord+'&page='+ (page-1));
+      getDataFromServer(basicSearchUrl+encodeURIComponent(searchWord)+'&page='+ (page-1));
     }
 
     const timer5 = () =>{
@@ -58,7 +58,6 @@ export default function SearchPage() {
     },[dataFromSrv]);
 
     if (loadingData) return <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}><CircularProgress /></div>
-
     if (errorFound.err){
       return (
         <div style={{display: "flex",justifyContent: "center",alignItems: "center",width:"100%",height:"100vh"}}>
